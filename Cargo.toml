@@ -3,6 +3,12 @@ name = "swapview"
 version = "0.1.0"
 authors = ["lilydjwg <lilydjwg@gmail.com>"]
 edition = "2018"
+license = "BSD-3-Clause"
+keywords = ["swap"]
+description = " A simple program to view processes' swap usage on Linux. "
+homepage = "https://github.com/lilydjwg/swapview"
+repository = "https://github.com/lilydjwg/swapview"
+readme = "README.md"
 
 [dependencies]
 rayon = "1"
