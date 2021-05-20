@@ -73,7 +73,7 @@ fn get_swap_for(pid: usize) -> isize {
 }
 
 fn get_swap() -> Vec<(usize, isize, String)> {
-  rayon::scope(|pool| {
+  rayon::in_place_scope(|pool| {
     let (tx, rx) = channel();
     for d in read_dir("/proc").unwrap() {
       let tx = tx.clone();
