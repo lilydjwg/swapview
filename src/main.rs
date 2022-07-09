@@ -25,9 +25,8 @@ fn filesize(size: isize) -> String {
   }
 }
 
-fn chop_null(s: String) -> String {
+fn chop_null(mut s: String) -> String {
   let last = s.len() - 1;
-  let mut s = s;
   if !s.is_empty() && s.as_bytes()[last] == 0 {
     s.truncate(last);
   }
