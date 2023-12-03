@@ -48,15 +48,17 @@ fn get_comm_for(pid: usize) -> String {
 }
 
 fn get_swap_for(pid: usize) -> isize {
-  let mut s = 0;
-  let smaps_path = format!("/proc/{}/smaps", pid);
+  let smaps_path = format!("/proc/{}/smaps_rollup", pid);
+
   let mut file = match File::open(&smaps_path) {
     Ok(f) => f,
     Err(_) => return 0,
   };
 
   let mut vec = vec![];
-  file.read_to_end(&mut vec).unwrap();
+  if file.read_to_end(&mut vec).is_err() {
+    return 0
+  }
   for line in vec.split(|&c| c == b'\n') {
     if line.starts_with(b"Swap:") {
       let string = line[5..]
@@ -65,10 +67,10 @@ fn get_swap_for(pid: usize) -> isize {
         .take_while(|&&c| c != b' ')
         .map(|&c| c as char)
         .collect::<String>();
-      s += string.parse::<isize>().unwrap();
+      return string.parse::<isize>().unwrap() * 1024;
     }
   }
-  s * 1024
+  0
 }
 
 fn get_swap() -> Vec<(usize, isize, String)> {
